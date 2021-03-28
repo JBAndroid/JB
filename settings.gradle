@@ -1,0 +1,5 @@
+include ':app'
+include ':router-annotations'
+include ':router-processor'
+//include ':router-gradle-plugin'
+rootProject.name = 'MyGradle'

@@ -1,0 +1,53 @@
+//1.引入插件
+apply plugin: 'maven'
+
+//2.读取工程的配置
+Properties properties = new Properties()
+
+properties.load(project.rootProject.file("gradle.properties").newDataInputStream())
+
+def VERSION_NAME = properties.getProperty("VERSION_NAME")
+def POM_URL = properties.getProperty("POM_URL")
+def GROUP_ID = properties.getProperty("GROUP_ID")
+
+
+Properties projectGradleProperties = new Properties()
+
+projectGradleProperties.load(project.file("gradle.properties").newDataInputStream())
+
+
+def POM_ARTIFACT_ID = projectGradleProperties.getProperty("POM_ARTIFACT_ID")
+
+println("Maven" + "VERSION_NAME   " + VERSION_NAME)
+println("Maven" + "POM_URL   " + POM_URL)
+println("Maven" + "GROUP_ID   " + GROUP_ID)
+println("Maven" + "POM_ARTIFACT_ID   " + POM_ARTIFACT_ID)
+
+//配置 maven 插件中的  uploadArchives  task
+uploadArchives {
+    repositories {
+        //填写发布信息
+        mavenDeployer {
+            //设置发布路径，工程目录下面的 repo文件夹
+            repository(url: uri(POM_URL)) {
+                //设置 groupId 通常是包名字
+                pom.groupId = GROUP_ID
+                // 设置 artifactId 为当前 插件的名字
+                pom.artifactId = POM_ARTIFACT_ID
+                //设置版本号
+                pom.version = VERSION_NAME
+            }
+
+            pom.whenConfigured { pom ->
+                pom.dependencies.forEach {
+                    dep ->
+                        if (dep.getVersion() == 'unspecifield') {
+                            dep.setGroupId(GROUP_ID)
+                            dep.setVersionName(VERSION_NAME)
+                        }
+                }
+            }
+        }
+    }
+}
+

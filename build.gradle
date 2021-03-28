@@ -1,0 +1,49 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url uri("/Users/jiangipad/MyGradle/repo")
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.3'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url uri("/Users/jiangipad/MyGradle/repo")
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+println("我是  gradle" + "====》》》》》" + "加油 奥利给")
+
+int a = 100
+def b = 1000
+
+
+println("a == $a")
+println("b == $b")
+
+
+task jiangbo {
+    println("我是一个新的task")
+}
+
+
+apply from: project.rootProject.file("task.gradle")

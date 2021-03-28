@@ -1,0 +1,13 @@
+apply Plugin: 'java'
+apply Plugin: 'JiangBoPlugin'
+
+class JiangBoPlugin implements Plugin<Project> {
+
+
+    @Override
+    void apply(Project target) {
+        target.task('hello') << {
+            println(" 这是我定义的字一个插件")
+        }
+    }
+}

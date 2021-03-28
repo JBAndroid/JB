@@ -1,0 +1,38 @@
+//引用 groovy 插件，编译工程中的代码
+apply plugin: 'groovy'
+
+//声明 仓库地址
+repositories {
+    jcenter()
+}
+
+// 声明依赖的包
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+
+}
+
+//调用插件 发布
+apply plugin: 'maven'
+
+//配置 maven 插件中的  uploadArchives  task
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            //设置发布路径，工程目录下面的 repo文件夹
+            repository(url: uri('../repo')) {
+                //设置 groupId 通常是包名字
+                pom.groupId = "com.jiangbo.router"
+                // 设置 artifactId 为当前 插件的名字
+                pom.artifactId = "router-gradle-plugin"
+                //设置版本号
+                pom.version = "1.0.0"
+            }
+        }
+    }
+}
+
+
+
+
